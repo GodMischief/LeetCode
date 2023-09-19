@@ -1,15 +1,21 @@
 class Solution {
- public:
+public:
   int climbStairs(int n) {
-    int prev1 = 1;  // dp[i - 1]
-    int prev2 = 1;  // dp[i - 2]
+    std::stack<int> s;
+    s.push(1); // dp[0]
+    s.push(1); // dp[1]
 
     for (int i = 2; i <= n; ++i) {
+      int prev1 = s.top();
+      s.pop();
+      int prev2 = s.top();
+      s.pop();
+      
       const int dp = prev1 + prev2;
-      prev2 = prev1;
-      prev1 = dp;
+      s.push(prev1); // push dp[i-1]
+      s.push(dp);    // push dp[i]
     }
 
-    return prev1;
+    return s.top();
   }
 };
