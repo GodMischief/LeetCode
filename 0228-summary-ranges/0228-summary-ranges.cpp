@@ -6,8 +6,8 @@ public:
         int start = 0;
         int end = 0;
 
-        while (end < nums.size()) {
-            while (end + 1 < nums.size() && nums[end] == nums[end + 1] - 1) {
+        while (start < nums.size()) {
+            while (end + 1 < nums.size() && nums[end] + 1 == nums[end + 1]) {
                 ++end;
             }
 
@@ -17,8 +17,8 @@ public:
                 ans.push_back(std::to_string(nums[start]) + "->" + std::to_string(nums[end]));
             }
 
-            start = end + 1;
-            end = start;
+            ++end; // Move end pointer to the next number
+            start = end; // Set start to the next potential range start
         }
 
         return ans;
