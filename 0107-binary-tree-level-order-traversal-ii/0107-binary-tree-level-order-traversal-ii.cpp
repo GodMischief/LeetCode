@@ -9,28 +9,36 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-/*Recursive Approach*/
+/*Iterative Approach Using Queue*/
 class Solution {
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
-        vector<vector<int>> result;
-        if (!root) return result;
+        vector<vector<int>> result; 
         
-        //level-order traversal
-        function<void(TreeNode*, int)> traverse = [&](TreeNode* node, int depth) {
-            if (!node) return;
-            if (depth == result.size()) {
-                result.push_back(vector<int>());
+        if (!root) return result; 
+        
+        queue<TreeNode*> q; 
+        q.push(root); 
+        
+        while (!q.empty()) {
+            int levelSize = q.size(); // Get the number of nodes at the current level.
+            vector<int> levelValues;
+            
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode* node = q.front(); // Get the front node from the queue.
+                q.pop(); 
+                levelValues.push_back(node->val);
+                
+                if (node->left) q.push(node->left); // Push the left child if it exists.
+                if (node->right) q.push(node->right); // Push the right child if it exists.
             }
             
-            traverse(node->left, depth + 1);
-            traverse(node->right, depth + 1);
-            result[depth].push_back(node->val); // Store values at their respective levels
-        };
+            result.push_back(levelValues);
+        }
         
-        traverse(root, 0);
-        reverse(result.begin(), result.end()); // Reverse the result to get bottom-up order
-        return result;
+        reverse(result.begin(), result.end()); 
+        return result; 
+        //Code by ~ Md Sohag Biswas
     }
 };
 
