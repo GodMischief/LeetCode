@@ -8,18 +8,14 @@ public:
         sort(intervals.begin(), intervals.end()); // Sort the intervals based on their start times.
         
         vector<vector<int>> mergedIntervals;
-        vector<int> currentInterval = intervals[0];
         
-        for (int i = 1; i < intervals.size(); ++i) {
-            if (currentInterval[1] >= intervals[i][0]) {
-                
-                currentInterval[1] = max(currentInterval[1], intervals[i][1]); // Merge the overlapping intervals by updating the end time.
+        for (int i = 0; i < intervals.size(); ++i) {
+            if (mergedIntervals.empty() || mergedIntervals.back()[1] < intervals[i][0]) {
+                mergedIntervals.push_back(intervals[i]);
             } else {
-                mergedIntervals.push_back(currentInterval);
-                currentInterval = intervals[i];
+                mergedIntervals.back()[1] = max(mergedIntervals.back()[1], intervals[i][1]);
             }
         }
-        mergedIntervals.push_back(currentInterval);
         
         return mergedIntervals;
     }
